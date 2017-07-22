@@ -16,6 +16,14 @@ Restores window configuration to the archived configuration.
 - ArchiveAndFocusCurrentWindow()
 This is basically calling ArchiveWindowConfiguration() + FocusCurrentWindow()
 
+## Commands Mapping
+```vim
+:FocusArchive "ArchiveWindowConfiguration()
+:FocusFocus "FocusCurrentWindow()
+:FocusArchiveFocus "ArchiveAndFocusCurrentWindow()
+:FocusRestore "RestoreArchivedWindowConfig()
+```
+
 ## Installation
 With plug.vim, do this
 ```vim
