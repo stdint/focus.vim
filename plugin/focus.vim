@@ -74,3 +74,9 @@ function! ArchiveAndFocusCurrentWindow()
   call FocusCurrentWindow()
 endfunction
 
+" Commands
+command! FocusArchive call ArchiveWindowConfiguration()
+command! FocusFocus call FocusCurrentWindow()
+command! FocusArchiveFocus call ArchiveAndFocusCurrentWindow()
+command! FocusRestore call RestoreArchivedWindowConfig()
+
