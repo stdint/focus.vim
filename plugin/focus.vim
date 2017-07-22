@@ -19,8 +19,8 @@ function! ArchiveWindowConfiguration()
     let i += 1
   endwhile
 
-  echo s:win_height_array
-  echo s:win_width_array
+  "echo s:win_height_array
+  "echo s:win_width_array
 endfunction
 
 function! FocusCurrentWindow()
