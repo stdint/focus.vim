@@ -6,7 +6,9 @@ let s:current_winnr = winnr()
 let s:win_height_array = []
 let s:win_width_array = []
 
-function! s:GetWindowStats()
+function! ArchiveWindowConfiguration()
+  let s:win_height_array = []
+  let s:win_width_array = []
   let s:current_winnr = winnr()
   let s:total_win_count = winnr('$')
 
@@ -21,7 +23,7 @@ function! s:GetWindowStats()
   echo s:win_width_array
 endfunction
 
-function! s:FocusCurrentWindow()
+function! FocusCurrentWindow()
   execute "wincmd t"
   let i = 1
   while i <= s:total_win_count
@@ -39,7 +41,36 @@ function! s:FocusCurrentWindow()
     execute "wincmd w"
     let i = winnr()
   endwhile
+  " last check if we changed the focused window too small by mistake, move it
+  " back
+  if winheight(i) < s:win_height_array[i - 1]
+    execute "resize ".s:win_height_array[i - 1]
+  endif
+  if winwidth(i) < s:win_width_array[i - 1]
+    execute "vertical resize ".s:win_width_array[i - 1]
+  endif
 endfunction
 
-"call s:GetWindowStats()
-call s:FocusCurrentWindow()
+function! RestoreArchivedWindowConfig()
+  execute "wincmd t"
+  let i = 1
+  while i <= s:total_win_count
+    execute "resize ".s:win_height_array[i - 1]
+    execute "vertical resize ".s:win_width_array[i - 1]
+    execute "wincmd w"
+    let i += 1
+  endwhile
+
+  " move the cursor back
+  let i = 1
+  while i != s:current_winnr
+    execute "wincmd w"
+    let i = winnr()
+  endwhile
+endfunction
+
+function! ArchiveAndFocusCurrentWindow()
+  call ArchiveWindowConfiguration()
+  call FocusCurrentWindow()
+endfunction
+
