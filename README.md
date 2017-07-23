@@ -12,9 +12,15 @@ Makes the current active window take the biggest display real estate possible.
 
 - RestoreArchivedWindowConfig()
 Restores window configuration to the archived configuration.
+![RestoreWindow](images/RestoreWindow.gif)
 
 - ArchiveAndFocusCurrentWindow()
 This is basically calling ArchiveWindowConfiguration() + FocusCurrentWindow()
+![ArchiveAndFocus](images/ArchiveAndFocus.gif)
+
+- The entire flow
+
+![ArchiveRestore](images/StoreAndRestore.gif)
 
 ## Commands Mapping
 ```vim
