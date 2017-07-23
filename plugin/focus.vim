@@ -5,14 +5,12 @@ let s:current_winnr = winnr()
 
 let s:win_height_array = []
 let s:win_width_array = []
-let s:win_cursor_top_array = []
-let s:win_cursor_array = []
+let s:win_pos_array = []
 
 function! ArchiveWindowConfiguration()
   let s:win_height_array = []
   let s:win_width_array = []
-  let s:win_cursor_top_array = []
-  let s:win_cursor_array = []
+  let s:win_pos_array = []
 
   let s:current_winnr = winnr()
   let s:total_win_count = winnr('$')
@@ -22,15 +20,14 @@ function! ArchiveWindowConfiguration()
   while i <= s:total_win_count
     call add(s:win_height_array, winheight(i))
     call add(s:win_width_array, winwidth(i))
-    call add(s:win_cursor_top_array, line("w0"))
-    call add(s:win_cursor_array, line("."))
+    call add(s:win_pos_array, getcurpos())
     execute "wincmd w"
     let i += 1
   endwhile
 
   "echo s:win_height_array
   "echo s:win_width_array
-  "echo s:win_cursor_top_array
+  "echo s:win_pos_array
 endfunction
 
 function! FocusCurrentWindow()
@@ -64,13 +61,13 @@ endfunction
 function! RestoreArchivedWindowConfig()
   execute "wincmd t"
   let i = 1
-  echo s:win_cursor_top_array
   while i <= s:total_win_count
     execute "resize ".s:win_height_array[i - 1]
     execute "vertical resize ".s:win_width_array[i - 1]
-    execute ":".s:win_cursor_top_array[i - 1]
-    execute "normal! z"
-    execute ":".s:win_cursor_array[i - 1]
+    call setpos('.',s:win_pos_array[i - 1])
+    "TODO This may be too limiting
+    execute "normal! zz"
+    execute "normal! zH"
     execute "wincmd w"
     let i += 1
   endwhile
